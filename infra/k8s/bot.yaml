@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: BotApp
+  name: bot-deployment
+  labels:
+    app: bot
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: BotApp
-  replicas: 1
+      app: bot
   template:
     metadata:
       labels:
-        app: BotApp
+        app: bot
     spec:
       containers:
-        - name: BotApp
-          image: 700935310038.dkr.ecr.eu-west-2.amazonaws.com
-          env:
-            - name: ENV
-              value: """
+      - name: bot
+        image: 700935310038.dkr.ecr.eu-west-2.amazonaws.com
+        env:
+          - name: ENV
+            value: ""
