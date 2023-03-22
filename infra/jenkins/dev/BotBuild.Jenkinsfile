@@ -11,7 +11,7 @@ pipeline {
 
     }
     environment {
-        APP_ENV = "dev"
+
         REPO_NAME = "700935310038.dkr.ecr.eu-west-2.amazonaws.com"
         IMAGE_NAME = "ci-cd-bot"
         IMAGE_TAG = "${BUILD_NUMBER}"
