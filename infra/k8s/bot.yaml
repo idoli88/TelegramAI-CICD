@@ -14,9 +14,7 @@ spec:
     spec:
       containers:
         - name: BotApp
-          image: 700935310038.dkr.ecr.eu-west-2.amazonaws.com/ci-cd-bot
+          image: 700935310038.dkr.ecr.eu-west-2.amazonaws.com
           env:
-            - name: ENVIRONMENT
-              value: "dev"
-          ports:
-            - containerPort:
+            - name: ENV
+              value: """
