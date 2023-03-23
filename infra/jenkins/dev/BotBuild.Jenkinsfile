@@ -14,7 +14,7 @@ pipeline {
     environment {
         REGISTRY_URL = '700935310038.dkr.ecr.eu-west-2.amazonaws.com'
         IMAGE_NAME = 'idotbot'
-        IMAGE_TAG = '${BUILD_NUMBER}'
+        IMAGE_TAG = '${GIT_COMMIT}'
 
     }
 
