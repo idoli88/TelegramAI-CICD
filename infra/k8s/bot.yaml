@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: bot
-        image:
+        image: BOT_IMAGE_NAME
         env:
           - name: APP_ENV
             value: "dev"
