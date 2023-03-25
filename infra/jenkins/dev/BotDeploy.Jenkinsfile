@@ -24,9 +24,9 @@ pipeline {
                     sh '''
                     # apply the configurations to k8s cluster
                     kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml
-                    kubectl set image deployment/bot-deployment bot=${BOT_IMAGE_NAME} -n ${APP_ENV}
-                    kubectl rollout status deployment/bot-deployment -n ${APP_ENV}
-                    kubectl get deployments bot-deployment -n ${APP_ENV}
+                    kubectl set image deployment/bot-deployment bot=\${REGISTRY_URL}/\${IMAGE_NAME}:\${BUILD_NUMBER} -n \${APP_ENV}
+                    kubectl rollout status deployment/bot-deployment -n \${APP_ENV}
+                    kubectl get deployments bot-deployment -n \${APP_ENV}
                     '''
                 }
             }
