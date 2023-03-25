@@ -18,5 +18,5 @@ spec:
       - name: bot
         image: 700935310038.dkr.ecr.eu-west-2.amazonaws.com/idotbot:latest
         env:
-          - name: ENV
+          - name: APP_ENV
             value: "dev"
