@@ -12,7 +12,9 @@ pipeline {
     }
 
     parameters {
-        string(name: 'BOT_IMAGE_NAME')
+        string(name: 'REGISTRY_URL')
+        string(name: 'IMAGE_NAME')
+        string(name: 'BUILD_NUMBER')
     }
 
     stages {
@@ -21,13 +23,13 @@ pipeline {
                 withCredentials([
                     file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')
                 ]) {
-                    sh '''
+                    sh """
                     # apply the configurations to k8s cluster
                     kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml
                     kubectl set image deployment/bot-deployment bot=\${REGISTRY_URL}/\${IMAGE_NAME}:\${BUILD_NUMBER} -n \${APP_ENV}
                     kubectl rollout status deployment/bot-deployment -n \${APP_ENV}
                     kubectl get deployments bot-deployment -n \${APP_ENV}
-                    '''
+                    """
                 }
             }
         }
