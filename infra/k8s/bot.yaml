@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bot-deployment
-  labels:
-    app: bot
 spec:
   replicas: 1
   selector:
@@ -15,9 +13,9 @@ spec:
         app: bot
     spec:
       containers:
-      - name: bot
-        image: PLACEHOLDER_BOT_IMAGE_NAME
-        env:
-          - name: APP_ENV
-            value: "dev"
-
+        - name: bot
+          image: BOT_IMAGE
+          ports:
+          env:
+            - name: ENV
+              value: dev
