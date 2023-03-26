@@ -1,8 +1,9 @@
 pipeline {
     agent {
         docker {
-            image '<jenkins-agent-image>'
-            args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+            // TODO build & push your Jenkins agent image, place the URL here
+            image '700935310038.dkr.ecr.eu-west-2.amazonaws.com/eli-abukrat-jenkins-agent:latest'
+            args  '--user root -v /var/run/docker.sock:/var/run/docker.sock'
         }
     }
 
@@ -10,34 +11,29 @@ pipeline {
         APP_ENV = "dev"
     }
 
+
+
+
     parameters {
         string(name: 'WORKER_IMAGE_NAME')
     }
 
     stages {
-        stage('Checkout') {
+        stage('Worker Deploy') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/dev']],
-                    extensions: [[$class: 'PathRestriction', includedRegions: 'infra/k8s/.*']],
-                    userRemoteConfigs: [[url: '<your-repo-url>']]
-                ])
-            }
-        }
+                echo "${WORKER_IMAGE_NAME}"
+                withCredentials([
+                    file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')
+                ]) {
+                    sh '''
+                    # apply the configurations to k8s cluster
+                    sed -i "s|WORKER_IMAGE|$WORKER_IMAGE_NAME|g" infra/k8s/worker.yaml
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml --namespace dev
 
-        stage('Deploy') {
-            steps {
-                sh 'kubectl apply -f infra/k8s/worker-deployment.yaml -n ${APP_ENV}'
-                sh 'kubectl set image deployment/worker-deployment worker=${WORKER_IMAGE_NAME} -n ${APP_ENV}'
-                sh 'kubectl rollout status deployment/worker-deployment -n ${APP_ENV}'
-            }
-        }
-    }
 
-    post {
-        always {
-            cleanWs()
+                    '''
+                }
+            }
         }
     }
 }
