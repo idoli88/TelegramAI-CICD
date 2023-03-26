@@ -30,6 +30,7 @@ pipeline {
                 docker build -t $IMAGE_NAME:$BUILD_NUMBER -f worker/Dockerfile .
                 docker tag $IMAGE_NAME:$BUILD_NUMBER $REGISTRY_URL/$IMAGE_NAME:$BUILD_NUMBER
                 docker push $REGISTRY_URL/$IMAGE_NAME:$BUILD_NUMBER
+
                 '''
             }
             post {
