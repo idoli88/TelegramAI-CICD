@@ -31,7 +31,7 @@ pipeline {
                     # Apply the configurations to k8s cluster
                     kubectl set image deployment/bot-deployment bot=${BOT_IMAGE_NAME} -n ${APP_ENV}
 
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot.yaml --namespace dev
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/bot_processed.yaml --namespace dev
 
 
 
