@@ -18,6 +18,6 @@ spec:
       - name: bot
         image: PLACEHOLDER_BOT_IMAGE_NAME
         env:
-          - name: ENV
+          - name: APP_ENV
             value: "dev"
 
