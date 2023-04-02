@@ -15,11 +15,7 @@ pipeline {
         REGISTRY_URL = '700935310038.dkr.ecr.eu-west-2.amazonaws.com'
         IMAGE_NAME = 'idot_bot_prod'
         IMAGE_TAG = '${GIT_COMMIT}'
-
     }
-
-
-
 
     stages {
         stage('Build') {
@@ -33,9 +29,14 @@ pipeline {
                 '''
             }
             post {
-               always {
-                   sh 'docker image prune -a --filter "until=240h" --force'
-               }
+                always {
+                    sh 'docker image prune -a --filter "until=240h" --force'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                build job: 'BotDeploy', parameters: [string(name: 'BOT_IMAGE_NAME', value: "${IMAGE_NAME}:${BUILD_NUMBER}")]
             }
         }
     }
