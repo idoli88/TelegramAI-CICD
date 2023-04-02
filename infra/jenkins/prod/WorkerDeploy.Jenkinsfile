@@ -28,8 +28,8 @@ pipeline {
                     sh '''
                     # apply the configurations to k8s cluster
 
-                    sed -i "s|WORKER_IMAGE|$WORKER_IMAGE_NAME|g" infra/k8s/worker.yaml
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/worker.yaml --namespace dev
+                    sed -i "s|WORKER_IMAGE|$WORKER_IMAGE_NAME|g" infra/k8s/workerprod.yaml
+                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/workerprod.yaml --namespace dev
 
 
                     '''
