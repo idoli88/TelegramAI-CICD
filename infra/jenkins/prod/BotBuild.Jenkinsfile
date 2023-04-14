@@ -34,10 +34,5 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                build job: 'BotDeploy', parameters: [string(name: 'BOT_IMAGE_NAME', value: "${IMAGE_NAME}:${BUILD_NUMBER}")]
-            }
-        }
     }
 }
