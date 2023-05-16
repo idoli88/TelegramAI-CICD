@@ -22,17 +22,16 @@ pipeline {
         stage('Bot Deploy') {
             steps {
                 echo "${BOT_IMAGE_NAME}"
-                withCredentials([
-                    file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')
-                ]) {
+
                     sh '''
+                    aws eks update-kubeconfig --region eu-north-1 --name k8s-main
                     # apply the configurations to k8s cluster
                     sed -i "s|BOT_IMAGE|$BOT_IMAGE_NAME|g" infra/k8s/botprod.yaml
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/botprod.yaml --namespace dev
+                    kubectl apply  -f infra/k8s/botprod.yaml --namespace idot
 
 
                     '''
-                }
+
             }
         }
     }

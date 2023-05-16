@@ -22,18 +22,16 @@ pipeline {
         stage('Worker Deploy') {
             steps {
                 echo "${WORKER_IMAGE_NAME}"
-                withCredentials([
-                    file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')
-                ]) {
+
                     sh '''
                     # apply the configurations to k8s cluster
-
+                    aws eks update-kubeconfig --region eu-north-1 --name k8s-main
                     sed -i "s|WORKER_IMAGE|$WORKER_IMAGE_NAME|g" infra/k8s/workerprod.yaml
-                    kubectl apply --kubeconfig ${KUBECONFIG} -f infra/k8s/workerprod.yaml --namespace dev
+                    kubectl apply  -f infra/k8s/workerprod.yaml --namespace idot
 
 
                     '''
-                }
+
             }
         }
     }
